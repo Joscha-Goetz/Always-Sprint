@@ -11,8 +11,9 @@
 		"homepage": "https://joscha-goetz.de",
 		"sources": "https://github.com/Joscha-Goetz/Always-Sprint"
 	},
+	"license": "GPL-3.0",
 	"icon": "assets/always-sprint/icon.png",
-	"environment": "client",
+	"environment": "*",
 	"mixins": [
 		"always-sprint.mixins.json"
 	],
