@@ -6,7 +6,7 @@ jobs:
     strategy:
       matrix:
         include:
-          - { mc: 1.21, java: 21, fabric: 0.102.0+1.21, mappings: 1.21+build.9 }
+          - { mc: 1.21.9, java: 21, fabric: 0.133.14+1.21.9, mappings: 1.21.9+build.1 }
     runs-on: ubuntu-latest
     steps:
       - name: checkout repository
