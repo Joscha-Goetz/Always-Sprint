@@ -43,7 +43,7 @@ jobs:
         run: ./gradlew build
       - name: pack build outputs into one ZIP
         run: |
-          mkdir -p packed/$mc
+          mkdir -p packed/
           cp build/libs/* packed/
           cd packed
           zip -r ../Artifacts.zip .
