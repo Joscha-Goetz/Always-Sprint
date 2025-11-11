@@ -41,8 +41,14 @@ jobs:
         run: chmod +x ./gradlew
       - name: build
         run: ./gradlew build --warning-mode all
-      - name: capture build artifacts
+      - name: pack build outputs into one ZIP
+        run: |
+          mkdir -p packed
+          cp build/libs/* packed/
+          cd packed
+          zip -r ../Artifacts-${{ matrix.mc }}.zip .
+      - name: upload artifacts ZIP
         uses: actions/upload-artifact@v4
         with:
           name: Artifacts-${{ matrix.mc }}
-          path: build/libs/
+          path: Artifacts-${{ matrix.mc }}.zip
