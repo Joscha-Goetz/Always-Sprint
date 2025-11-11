@@ -33,6 +33,9 @@ jobs:
           
           # Fabric api Version
           sed -i "s/^fabric_version=.*/fabric_version=${{ matrix.fabric }}/" gradle.properties
+          
+          # Mod Version
+          sed -i "s/^mod_version=.*/mod_version=1.0.0-${{ matrix.mc }}/" gradle.properties
 
       - name: make gradle wrapper executable
         run: chmod +x ./gradlew
