@@ -40,13 +40,13 @@ jobs:
       - name: make gradle wrapper executable
         run: chmod +x ./gradlew
       - name: build
-        run: ./gradlew build --warning-mode all
+        run: ./gradlew build
       - name: pack build outputs into one ZIP
         run: |
-          mkdir -p packed
+          mkdir -p packed/$mc
           cp build/libs/* packed/
           cd packed
-          zip -r ../Artifacts-${{ matrix.mc }}.zip .
+          zip -r ../Artifacts.zip .
       - name: upload artifacts ZIP
         uses: actions/upload-artifact@v4
         with:
