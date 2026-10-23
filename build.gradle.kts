@@ -1,6 +1,8 @@
+import java.net.URI
+
 plugins {
     id("dev.kikugie.loom-back-compat")
-    id("com.modrinth.minotaur")
+    id("me.modmuss50.mod-publish-plugin")
 }
 
 val loader = "fabric"
@@ -70,19 +72,30 @@ java {
     }
 }
 
-modrinth {
-    token = providers.gradleProperty("modrinthToken")
-    projectId = "always-sprint"
-    versionNumber = project.version.toString()
-    versionType = "release"
-    uploadFile = loomx.modJar.get()
-    gameVersions.addAll(compatibleVersions)
-    loaders.add("fabric")
+publishMods {
+    file = loomx.modJar.flatMap { it.archiveFile }
+    version = project.version.toString()
+    displayName = project.version.toString()
     changelog = "Finally a modern up-to-date Version"
-    debugMode = providers.gradleProperty("modrinthDebug").isPresent
+    type = STABLE
+    modLoaders.add("fabric")
+    dryRun = providers.gradleProperty("publishDryRun").isPresent
+
+    curseforge {
+        accessToken = providers.gradleProperty("curseforgeToken")
+        projectId = "1761202"
+        minecraftVersions.addAll(compatibleVersions)
+        client = true
+        server = false
+    }
+
+    modrinth {
+        accessToken = providers.gradleProperty("modrinthToken")
+        projectId = "p6841kf7"
+        minecraftVersions.addAll(compatibleVersions)
+    }
 }
 
-tasks.named("modrinth") { dependsOn(loomx.modJar) }
 
 tasks {
     processResources {
@@ -122,5 +135,26 @@ tasks {
         inputs.property("version", project.property("mod.version"))
         from(loomx.modJar.flatMap { it.archiveFile }, loomx.modSourcesJar.flatMap { it.archiveFile })
         into(rootProject.layout.buildDirectory.file("libs/${project.property("mod.version")}"))
+    }
+}
+
+val publishVersion = project.version.toString()
+
+tasks.named("publishModrinth") {
+    val version = publishVersion
+    onlyIf("Version noch nicht auf Modrinth") {
+        val json = URI("https://api.modrinth.com/v2/project/always-sprint/version")
+            .toURL().readText()
+        !json.contains("\"version_number\":\"$version\"")
+    }
+}
+
+tasks.named("publishCurseforge") {
+    val fileName = "always-sprint-$publishVersion.jar"
+    onlyIf("Version noch nicht auf CurseForge") {
+        val onCurseforge = runCatching {
+            URI("https://api.cfwidget.com/1761202").toURL().readText().contains(fileName)
+        }.getOrDefault(false)
+        !onCurseforge
     }
 }
