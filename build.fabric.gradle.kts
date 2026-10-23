@@ -35,6 +35,28 @@ val prereleaseMap: Map<String, List<String>> = rootProject.layout.projectDirecto
 val modrinthVersions: List<String> =
     (compatibleVersions + compatibleVersions.flatMap { prereleaseMap[it].orEmpty() }).distinct()
 
+val curseforgeSnapshotNames: Map<String, String> = rootProject.layout.projectDirectory.file("curseforge-snapshots.json").let { file ->
+    if (!file.asFile.isFile) emptyMap()
+    else {
+        @Suppress("UNCHECKED_CAST")
+        (groovy.json.JsonSlurper().parseText(providers.fileContents(file).asText.get()) as List<String>)
+            .associateBy { it.lowercase() }
+    }
+}
+
+fun curseforgeSnapshotTag(release: String, prerelease: String): String? {
+    val weekly = Regex("""^\d\dw\d\d""").containsMatchIn(prerelease)
+    val target = if (weekly) release
+    else Regex("""^(\d+(?:\.\d+)+)""").find(prerelease)?.groupValues?.get(1) ?: release
+    val series = target.split('.').take(2).joinToString(".")
+    return curseforgeSnapshotNames["$target-snapshot"]
+        ?: if (sc.current.parsed < "1.19.3") curseforgeSnapshotNames["$series-snapshot"] else null
+}
+
+val curseforgeVersions: List<String> = (compatibleVersions + compatibleVersions.flatMap { release ->
+    prereleaseMap[release].orEmpty().mapNotNull { curseforgeSnapshotTag(release, it) }
+}).distinct()
+
 fun withPrereleases(range: String): String {
     val parts = range.trim().split(Regex("\\s+"))
     return if (parts.size == 1 && parts[0].first().isDigit()) ">=${parts[0]}- <=${parts[0]}"
@@ -97,12 +119,13 @@ publishMods {
     changelog = "Now also works on snapshots, pre-releases and release candidates of each supported Minecraft version"
     type = STABLE
     modLoaders.add("fabric")
+    if (sc.current.parsed >= "1.18.2") modLoaders.add("quilt")
     dryRun = providers.gradleProperty("publishDryRun").isPresent
 
     curseforge {
         accessToken = providers.gradleProperty("curseforgeToken")
         projectId = "1761202"
-        minecraftVersions.addAll(compatibleVersions)
+        minecraftVersions.addAll(curseforgeVersions)
         client = true
         server = false
     }
@@ -189,5 +212,11 @@ tasks.named("publishCurseforge") {
 tasks.register("printModrinthVersions") {
     group = "publishing"
     val versions = modrinthVersions
+    doLast { println(versions.joinToString(", ")) }
+}
+
+tasks.register("printCurseforgeVersions") {
+    group = "publishing"
+    val versions = curseforgeVersions
     doLast { println(versions.joinToString(", ")) }
 }
