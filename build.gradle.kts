@@ -23,6 +23,23 @@ val ctHeader = Regex("""^(classTweaker|accessWidener) v(\d) \w+""")
 val compatibleVersions: List<String> = sc.properties.rawOrNull("mod", "mc_releases")
     ?.asList().orEmpty().map { it.toString() }
 
+val prereleaseMap: Map<String, List<String>> = rootProject.layout.projectDirectory.file("mc-prereleases.json").let { file ->
+    if (!file.asFile.isFile) emptyMap()
+    else {
+        @Suppress("UNCHECKED_CAST")
+        groovy.json.JsonSlurper().parseText(providers.fileContents(file).asText.get()) as Map<String, List<String>>
+    }
+}
+
+val modrinthVersions: List<String> =
+    (compatibleVersions + compatibleVersions.flatMap { prereleaseMap[it].orEmpty() }).distinct()
+
+fun withPrereleases(range: String): String {
+    val parts = range.trim().split(Regex("\\s+"))
+    return if (parts.size == 1 && parts[0].first().isDigit()) ">=${parts[0]}- <=${parts[0]}"
+    else parts.joinToString(" ") { if (it.startsWith(">=") && !it.endsWith("-")) "$it-" else it }
+}
+
 loom {
     fabricModJsonPath = rootProject.file("src/main/resources/fabric.mod.json")
         accessWidenerPath = sc.process(
@@ -76,7 +93,7 @@ publishMods {
     file = loomx.modJar.flatMap { it.archiveFile }
     version = project.version.toString()
     displayName = project.version.toString()
-    changelog = "Finally a modern up-to-date Version"
+    changelog = "Now also works on snapshots, pre-releases and release candidates of each supported Minecraft version"
     type = STABLE
     modLoaders.add("fabric")
     dryRun = providers.gradleProperty("publishDryRun").isPresent
@@ -92,7 +109,7 @@ publishMods {
     modrinth {
         accessToken = providers.gradleProperty("modrinthToken")
         projectId = "p6841kf7"
-        minecraftVersions.addAll(compatibleVersions)
+        minecraftVersions.addAll(modrinthVersions)
     }
 }
 
@@ -108,10 +125,14 @@ tasks {
         val fullVersion = project.version.toString()
         inputs.property("fullVersion", fullVersion)
 
+        val rawCompat: String = sc.properties["mod.mc_compat"]
+        val mcCompat = withPrereleases(rawCompat)
+        inputs.property("minecraft", mcCompat)
+
         val props = buildMap {
             register("id", "mod.id")
             register("name", "mod.name")
-            register("minecraft", "mod.mc_compat")
+            put("minecraft", mcCompat)
             put("version", fullVersion)
         }
 
@@ -157,4 +178,9 @@ tasks.named("publishCurseforge") {
         }.getOrDefault(false)
         !onCurseforge
     }
+}
+tasks.register("printModrinthVersions") {
+    group = "publishing"
+    val versions = modrinthVersions
+    doLast { println(versions.joinToString(", ")) }
 }
