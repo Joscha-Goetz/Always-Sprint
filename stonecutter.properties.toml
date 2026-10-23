@@ -5,47 +5,83 @@ mod.version = "2.0.1"
 
 deps.fabric_loader = "0.20.1"
 
-"26.3".mod    = { mc_compat = ">=26.3 <26.4", mc_releases = ["26.3"] }
-"26.2".mod    = { mc_compat = "26.2", mc_releases = ["26.2"] }
-"26.1.2".mod  = { mc_compat = ">=26.1 <=26.1.2", mc_releases = ["26.1", "26.1.1", "26.1.2"] }
-"26.1.1".mod  = { mc_compat = ">=26.1 <=26.1.2", mc_releases = ["26.1", "26.1.1", "26.1.2"] }
-"26.1".mod    = { mc_compat = ">=26.1 <=26.1.2", mc_releases = ["26.1", "26.1.1", "26.1.2"] }
-"1.21.11".mod = { mc_compat = "1.21.11", mc_releases = ["1.21.11"] }
-"1.21.10".mod = { mc_compat = "1.21.10", mc_releases = ["1.21.10"] }
-"1.21.9".mod  = { mc_compat = "1.21.9", mc_releases = ["1.21.9"] }
-"1.21.8".mod  = { mc_compat = "1.21.8", mc_releases = ["1.21.8"] }
-"1.21.7".mod  = { mc_compat = "1.21.7", mc_releases = ["1.21.7"] }
-"1.21.6".mod  = { mc_compat = "1.21.6", mc_releases = ["1.21.6"] }
-"1.21.5".mod  = { mc_compat = "1.21.5", mc_releases = ["1.21.5"] }
-"1.21.4".mod  = { mc_compat = "1.21.4", mc_releases = ["1.21.4"] }
-"1.21.3".mod  = { mc_compat = "1.21.3", mc_releases = ["1.21.3"] }
-"1.21.2".mod  = { mc_compat = "1.21.2", mc_releases = ["1.21.2"] }
-"1.21.1".mod  = { mc_compat = "1.21.1", mc_releases = ["1.21.1"] }
-"1.21".mod    = { mc_compat = "1.21", mc_releases = ["1.21"] }
-"1.20.6".mod  = { mc_compat = "1.20.6", mc_releases = ["1.20.6"] }
-"1.20.5".mod  = { mc_compat = "1.20.5", mc_releases = ["1.20.5"] }
-"1.20.4".mod  = { mc_compat = "1.20.4", mc_releases = ["1.20.4"] }
-"1.20.3".mod  = { mc_compat = "1.20.3", mc_releases = ["1.20.3"] }
-"1.20.2".mod  = { mc_compat = "1.20.2", mc_releases = ["1.20.2"] }
-"1.20.1".mod  = { mc_compat = "1.20.1", mc_releases = ["1.20.1"] }
-"1.20".mod    = { mc_compat = "1.20", mc_releases = ["1.20"] }
-"1.19.4".mod  = { mc_compat = "1.19.4", mc_releases = ["1.19.4"] }
-"1.19.3".mod  = { mc_compat = "1.19.3", mc_releases = ["1.19.3"] }
-"1.19.2".mod  = { mc_compat = "1.19.2", mc_releases = ["1.19.2"] }
-"1.19.1".mod  = { mc_compat = "1.19.1", mc_releases = ["1.19.1"] }
-"1.19".mod    = { mc_compat = "1.19", mc_releases = ["1.19"] }
-"1.18.2".mod  = { mc_compat = "1.18.2", mc_releases = ["1.18.2"] }
-"1.18.1".mod  = { mc_compat = "1.18.1", mc_releases = ["1.18.1"] }
-"1.18".mod    = { mc_compat = ">=1.18 <=1.18.1", mc_releases = ["1.18", "1.18.1"] }
-"1.17.1".mod  = { mc_compat = "1.17.1", mc_releases = ["1.17.1"] }
-"1.17".mod    = { mc_compat = "1.17", mc_releases = ["1.17"] }
-"1.16.5".mod  = { mc_compat = "1.16.5", mc_releases = ["1.16.5"] }
-"1.16.4".mod  = { mc_compat = "1.16.4", mc_releases = ["1.16.4"] }
-"1.16.3".mod  = { mc_compat = "1.16.3", mc_releases = ["1.16.3"] }
-"1.16.2".mod  = { mc_compat = "1.16.2", mc_releases = ["1.16.2"] }
-"1.16.1".mod  = { mc_compat = "1.16.1", mc_releases = ["1.16.1"] }
-"1.16".mod    = { mc_compat = ">=1.16 <=1.16.1", mc_releases = ["1.16", "1.16.1"] }
-"1.15.2".mod  = { mc_compat = "1.15.2", mc_releases = ["1.15.2"] }
-"1.15.1".mod  = { mc_compat = "1.15.1", mc_releases = ["1.15.1"] }
-"1.15".mod    = { mc_compat = "1.15", mc_releases = ["1.15"] }
-"1.14.4".mod  = { mc_compat = "1.14.4", mc_releases = ["1.14.4"] }
+"26.3-fabric".mod    = { mc_compat = ">=26.3 <26.4", mc_releases = ["26.3"] }
+"26.3-neoforge".mod    = { mc_compat = ">=26.3 <26.4", mc_releases = ["26.3"] }
+"26.2-fabric".mod    = { mc_compat = "26.2", mc_releases = ["26.2"] }
+"26.2-neoforge".mod    = { mc_compat = "26.2", mc_releases = ["26.2"] }
+"26.1.2-fabric".mod  = { mc_compat = ">=26.1 <=26.1.2", mc_releases = ["26.1", "26.1.1", "26.1.2"] }
+"26.1.2-neoforge".mod  = { mc_compat = ">=26.1 <=26.1.2", mc_releases = ["26.1", "26.1.1", "26.1.2"] }
+"26.1.1-fabric".mod  = { mc_compat = ">=26.1 <=26.1.2", mc_releases = ["26.1", "26.1.1", "26.1.2"] }
+"26.1.1-neoforge".mod  = { mc_compat = ">=26.1 <=26.1.2", mc_releases = ["26.1", "26.1.1", "26.1.2"] }
+"26.1-fabric".mod    = { mc_compat = ">=26.1 <=26.1.2", mc_releases = ["26.1", "26.1.1", "26.1.2"] }
+"26.1-neoforge".mod    = { mc_compat = ">=26.1 <=26.1.2", mc_releases = ["26.1", "26.1.1", "26.1.2"] }
+"1.21.11-fabric".mod = { mc_compat = "1.21.11", mc_releases = ["1.21.11"] }
+"1.21.11-neoforge".mod = { mc_compat = "1.21.11", mc_releases = ["1.21.11"] }
+"1.21.10-fabric".mod = { mc_compat = "1.21.10", mc_releases = ["1.21.10"] }
+"1.21.10-neoforge".mod = { mc_compat = "1.21.10", mc_releases = ["1.21.10"] }
+"1.21.9-fabric".mod  = { mc_compat = "1.21.9", mc_releases = ["1.21.9"] }
+"1.21.9-neoforge".mod  = { mc_compat = "1.21.9", mc_releases = ["1.21.9"] }
+"1.21.8-fabric".mod  = { mc_compat = "1.21.8", mc_releases = ["1.21.8"] }
+"1.21.8-neoforge".mod  = { mc_compat = "1.21.8", mc_releases = ["1.21.8"] }
+"1.21.7-fabric".mod  = { mc_compat = "1.21.7", mc_releases = ["1.21.7"] }
+"1.21.7-neoforge".mod  = { mc_compat = "1.21.7", mc_releases = ["1.21.7"] }
+"1.21.6-fabric".mod  = { mc_compat = "1.21.6", mc_releases = ["1.21.6"] }
+"1.21.6-neoforge".mod  = { mc_compat = "1.21.6", mc_releases = ["1.21.6"] }
+"1.21.5-fabric".mod  = { mc_compat = "1.21.5", mc_releases = ["1.21.5"] }
+"1.21.5-neoforge".mod  = { mc_compat = "1.21.5", mc_releases = ["1.21.5"] }
+"1.21.4-fabric".mod  = { mc_compat = "1.21.4", mc_releases = ["1.21.4"] }
+"1.21.4-neoforge".mod  = { mc_compat = "1.21.4", mc_releases = ["1.21.4"] }
+"1.21.3-fabric".mod  = { mc_compat = "1.21.3", mc_releases = ["1.21.3"] }
+"1.21.3-neoforge".mod  = { mc_compat = "1.21.3", mc_releases = ["1.21.3"] }
+"1.21.2-fabric".mod  = { mc_compat = "1.21.2", mc_releases = ["1.21.2"] }
+"1.21.2-neoforge".mod  = { mc_compat = "1.21.2", mc_releases = ["1.21.2"] }
+"1.21.1-fabric".mod  = { mc_compat = "1.21.1", mc_releases = ["1.21.1"] }
+"1.21.1-neoforge".mod  = { mc_compat = "1.21.1", mc_releases = ["1.21.1"] }
+"1.21-fabric".mod    = { mc_compat = "1.21", mc_releases = ["1.21"] }
+"1.21-neoforge".mod    = { mc_compat = "1.21", mc_releases = ["1.21"] }
+"1.20.6-fabric".mod  = { mc_compat = "1.20.6", mc_releases = ["1.20.6"] }
+"1.20.6-neoforge".mod  = { mc_compat = "1.20.6", mc_releases = ["1.20.6"] }
+"1.20.5-fabric".mod  = { mc_compat = "1.20.5", mc_releases = ["1.20.5"] }
+"1.20.4-fabric".mod  = { mc_compat = "1.20.4", mc_releases = ["1.20.4"] }
+"1.20.3-fabric".mod  = { mc_compat = "1.20.3", mc_releases = ["1.20.3"] }
+"1.20.2-fabric".mod  = { mc_compat = "1.20.2", mc_releases = ["1.20.2"] }
+"1.20.1-fabric".mod  = { mc_compat = "1.20.1", mc_releases = ["1.20.1"] }
+"1.20-fabric".mod    = { mc_compat = "1.20", mc_releases = ["1.20"] }
+"1.19.4-fabric".mod  = { mc_compat = "1.19.4", mc_releases = ["1.19.4"] }
+"1.19.3-fabric".mod  = { mc_compat = "1.19.3", mc_releases = ["1.19.3"] }
+"1.19.2-fabric".mod  = { mc_compat = "1.19.2", mc_releases = ["1.19.2"] }
+"1.19.1-fabric".mod  = { mc_compat = "1.19.1", mc_releases = ["1.19.1"] }
+"1.19-fabric".mod    = { mc_compat = "1.19", mc_releases = ["1.19"] }
+"1.18.2-fabric".mod  = { mc_compat = "1.18.2", mc_releases = ["1.18.2"] }
+"1.18.1-fabric".mod  = { mc_compat = "1.18.1", mc_releases = ["1.18.1"] }
+"1.18-fabric".mod    = { mc_compat = ">=1.18 <=1.18.1", mc_releases = ["1.18", "1.18.1"] }
+"1.17.1-fabric".mod  = { mc_compat = "1.17.1", mc_releases = ["1.17.1"] }
+"1.17-fabric".mod    = { mc_compat = "1.17", mc_releases = ["1.17"] }
+"1.16.5-fabric".mod  = { mc_compat = "1.16.5", mc_releases = ["1.16.5"] }
+"1.16.4-fabric".mod  = { mc_compat = "1.16.4", mc_releases = ["1.16.4"] }
+"1.16.3-fabric".mod  = { mc_compat = "1.16.3", mc_releases = ["1.16.3"] }
+"1.16.2-fabric".mod  = { mc_compat = "1.16.2", mc_releases = ["1.16.2"] }
+"1.16.1-fabric".mod  = { mc_compat = "1.16.1", mc_releases = ["1.16.1"] }
+"1.16-fabric".mod    = { mc_compat = ">=1.16 <=1.16.1", mc_releases = ["1.16", "1.16.1"] }
+"1.15.2-fabric".mod  = { mc_compat = "1.15.2", mc_releases = ["1.15.2"] }
+"1.15.1-fabric".mod  = { mc_compat = "1.15.1", mc_releases = ["1.15.1"] }
+"1.15-fabric".mod    = { mc_compat = "1.15", mc_releases = ["1.15"] }
+"1.14.4-fabric".mod  = { mc_compat = "1.14.4", mc_releases = ["1.14.4"] }
+"1.20.6-neoforge".deps = { neoforge = "20.6.144" }
+"1.21-neoforge".deps = { neoforge = "21.0.167" }
+"1.21.1-neoforge".deps = { neoforge = "21.1.264" }
+"1.21.2-neoforge".deps = { neoforge = "21.2.1-beta" }
+"1.21.3-neoforge".deps = { neoforge = "21.3.100" }
+"1.21.4-neoforge".deps = { neoforge = "21.4.161" }
+"1.21.5-neoforge".deps = { neoforge = "21.5.101" }
+"1.21.6-neoforge".deps = { neoforge = "21.6.20-beta" }
+"1.21.7-neoforge".deps = { neoforge = "21.7.25-beta" }
+"1.21.8-neoforge".deps = { neoforge = "21.8.57" }
+"1.21.9-neoforge".deps = { neoforge = "21.9.16-beta" }
+"1.21.10-neoforge".deps = { neoforge = "21.10.64" }
+"1.21.11-neoforge".deps = { neoforge = "21.11.48" }
+"26.1-neoforge".deps = { neoforge = "26.1.0.19-beta" }
+"26.1.1-neoforge".deps = { neoforge = "26.1.1.15-beta" }
+"26.1.2-neoforge".deps = { neoforge = "26.1.2.122" }
+"26.2-neoforge".deps = { neoforge = "26.2.0.93" }
+"26.3-neoforge".deps = { neoforge = "26.3.0.95" }

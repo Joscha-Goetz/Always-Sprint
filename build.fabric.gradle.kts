@@ -1,3 +1,4 @@
+import java.net.HttpURLConnection
 import java.net.URI
 
 plugins {
@@ -116,6 +117,7 @@ publishMods {
 
 tasks {
     processResources {
+        exclude("META-INF/neoforge.mods.toml")
         fun MutableMap<String, String>.register(key: String, property: String) {
             val value: String = sc.properties[property]
             inputs.property(key, value)
@@ -163,10 +165,15 @@ val publishVersion = project.version.toString()
 
 tasks.named("publishModrinth") {
     val version = publishVersion
+    val token = providers.gradleProperty("modrinthToken")
     onlyIf("Version noch nicht auf Modrinth") {
-        val json = URI("https://api.modrinth.com/v2/project/always-sprint/version")
-            .toURL().readText()
-        !json.contains("\"version_number\":\"$version\"")
+        val conn = URI("https://api.modrinth.com/v2/project/always-sprint/version/$version")
+            .toURL().openConnection() as HttpURLConnection
+        token.orNull?.let { conn.setRequestProperty("Authorization", it) }
+        conn.setRequestProperty("Cache-Control", "no-cache")
+        val code = conn.responseCode
+        conn.disconnect()
+        code != 200
     }
 }
 
