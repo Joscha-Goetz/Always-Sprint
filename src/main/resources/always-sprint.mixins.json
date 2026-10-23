@@ -1,11 +1,11 @@
 {
-	"required": true,
-	"package": "net.mirador.alwayssprint.mixin",
-	"compatibilityLevel": "JAVA_21",
-	"mixins": [
-		"ClientPlayerEntityMixin"
-	],
-	"injectors": {
-		"defaultRequire": 1
-	}
+  "required": true,
+  "package": "de.mirador.mixin",
+  "compatibilityLevel": "${java}",
+  "mixins": [
+    "LocalPlayermixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
 }

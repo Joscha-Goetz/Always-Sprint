@@ -1,25 +1,30 @@
 {
-	"schemaVersion": 1,
-	"id": "always-sprint",
-	"version": "${version}",
-	"name": "Always Sprint",
-	"description": "This is a Mod that lets the player sprint always without needing a sprint keybind",
-	"authors": [
-		"Mirador"
-	],
-	"contact": {
-		"homepage": "https://joscha-goetz.de",
-		"sources": "https://github.com/Joscha-Goetz/Always-Sprint"
-	},
-	"icon": "assets/always-sprint/icon.png",
-	"environment": "client",
-	"mixins": [
-		"always-sprint.mixins.json"
-	],
-	"depends": {
-		"fabricloader": ">=0.15.11",
-		"minecraft": "~1.21",
-		"java": ">=21",
-		"fabric-api": "*"
-	}
+  "schemaVersion": 1,
+  "id": "${id}",
+  "version": "${version}",
+  "name": "${name}",
+  "description": "This is an example description! Tell everyone what your mod is about!",
+  "authors": [
+    "Me!"
+  ],
+  "contact": {
+    "homepage": "https://stonecutter.kikugie.dev/",
+    "sources": "https://codeberg.org/stonecutter/template-fabric"
+  },
+  "license": "MIT",
+  "icon": "assets/${id}/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "main": [
+      "de.mirador.AlwaysSprint"
+    ]
+  },
+  "mixins": [
+    "always-sprint.mixins.json"
+  ],
+  "accessWidener": "always-sprint.ct",
+  "depends": {
+    "fabricloader": ">=0.17",
+    "minecraft": "${minecraft}"
+  }
 }
