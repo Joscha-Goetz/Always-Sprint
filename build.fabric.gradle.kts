@@ -91,14 +91,25 @@ repositories {
     }
     strictMaven("https://www.cursemaven.com", "CurseForge", "curse.maven")
     strictMaven("https://api.modrinth.com/maven", "Modrinth", "maven.modrinth")
+    strictMaven("https://maven.parchmentmc.org", "ParchmentMC", "org.parchmentmc.data")
 }
 
 dependencies {
 
     minecraft("com.mojang:minecraft:${sc.current.version}")
-    loomx.applyMojangMappings()
+    val parchment = sc.properties.rawOrNull("deps", "parchment")?.toString()
+    if (parchment != null) {
+        val (parchmentMc, parchmentDate) = parchment.split(":")
+        "mappings"(loom.layered {
+            officialMojangMappings()
+            parchment("org.parchmentmc.data:parchment-$parchmentMc:$parchmentDate@zip")
+        })
+    } else {
+        loomx.applyMojangMappings()
+    }
 
     modImplementation("net.fabricmc:fabric-loader:${property("deps.fabric_loader")}")
+
 }
 
 java {

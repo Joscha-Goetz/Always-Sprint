@@ -25,6 +25,12 @@ val neoforgeVersion: String = sc.properties["deps.neoforge"]
 
 neoForge {
     version = neoforgeVersion
+    sc.properties.rawOrNull("deps", "parchment")?.toString()?.split(":")?.let { (parchmentMc, parchmentDate) ->
+        parchment {
+            minecraftVersion = parchmentMc
+            mappingsVersion = parchmentDate
+        }
+    }
     mods {
         register(neoModId) {
             sourceSet(sourceSets.main.get())

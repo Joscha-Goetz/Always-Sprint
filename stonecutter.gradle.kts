@@ -6,7 +6,7 @@ plugins {
     id("de.joscha-goetz.publish-ordered") version "1.1.0"
 }
 
-stonecutter active "26.3-fabric"
+stonecutter active "1.21.8-fabric"
 
 stonecutter parameters {
     swaps["mod_version"] = "\"${property("mod.version")}\";"

@@ -28,14 +28,21 @@ val fabricAndNeoforge = listOf(
     "26.1", "26.1.1", "26.1.2", "26.2", "26.3",
 )
 
+val ideSync = System.getProperty("idea.sync.active") == "true"
+val activeProject = Regex("""stonecutter active "([^"]+)"""")
+    .find(file("stonecutter.gradle.kts").readText())?.groupValues?.get(1)
+
 stonecutter {
     create(rootProject) {
         fun mc(version: String, vararg loaders: String) = loaders.forEach {
-            version("$version-$it", version).buildscript = "build.$it.gradle.kts"
+            val name = "$version-$it"
+            if (!ideSync || activeProject == null || name == activeProject) {
+                version(name, version).buildscript = "build.$it.gradle.kts"
+            }
         }
         fabricOnly.forEach { mc(it, "fabric") }
         fabricAndNeoforge.forEach { mc(it, "fabric", "neoforge") }
-        vcsVersion = "26.3-fabric"
+        vcsVersion = if (ideSync && activeProject != null) activeProject else "26.3-fabric"
     }
 }
 

@@ -14,14 +14,14 @@ import org.apache.logging.log4j.Logger;
 *///?}
 
 //? if neoforge
-/*@Mod("always_sprint")*/
+//@Mod("always_sprint")
 public class AlwaysSprint /*? if fabric {*/implements ModInitializer/*?}*/ {
     //? if >=1.18 {
     public static final Logger LOGGER = LoggerFactory.getLogger("always-sprint");
     //?} else
-    /*public static final Logger LOGGER = LogManager.getLogger("always-sprint");*/
+    //public static final Logger LOGGER = LogManager.getLogger("always-sprint");
     public static final String VERSION = /*$ mod_version*/ "2.0.1";
-    public static final String MINECRAFT = /*$ minecraft*/ "26.3";
+    public static final String MINECRAFT = /*$ minecraft*/ "1.21.8";
 
     //? if fabric {
     @Override
