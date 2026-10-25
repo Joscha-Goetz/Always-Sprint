@@ -1,22 +1,10 @@
-import java.net.HttpURLConnection
-import java.net.URI
-
 plugins {
+    id("build-common")
     id("dev.kikugie.loom-back-compat")
     id("me.modmuss50.mod-publish-plugin")
 }
 
-val loader = "fabric"
-version = "${property("mod.version")}-${sc.current.version}-$loader"
-base.archivesName = property("mod.id") as String
-
-val requiredJava: JavaVersion = when {
-    sc.current.parsed >= "26.1" -> JavaVersion.VERSION_25
-    sc.current.parsed >= "1.20.5" -> JavaVersion.VERSION_21
-    sc.current.parsed >= "1.18" -> JavaVersion.VERSION_17
-    sc.current.parsed >= "1.17" -> JavaVersion.VERSION_16
-    else -> JavaVersion.VERSION_1_8
-}
+val requiredJava = extra["requiredJava"] as JavaVersion
 
 val ctNamespace = if (sc.current.parsed >= "26.1") "official" else "named"
 val ctHeader = Regex("""^(classTweaker|accessWidener) v(\d) \w+""")
@@ -65,12 +53,12 @@ fun withPrereleases(range: String): String {
 
 loom {
     fabricModJsonPath = rootProject.file("src/main/resources/fabric.mod.json")
-        accessWidenerPath = sc.process(
+    accessWidenerPath = sc.process(
         rootProject.file("src/main/resources/always-sprint.ct"),
         "build/processed.ct"
-        ).also { file ->
-            file.writeText(file.readText().replaceFirst(ctHeader, "$1 v$2 $ctNamespace"))
-        }
+    ).also { file ->
+        file.writeText(file.readText().replaceFirst(ctHeader, "$1 v$2 $ctNamespace"))
+    }
 
     decompilerOptions.named("vineflower") {
         options.put("mark-corresponding-synthetics", "1")
@@ -95,8 +83,8 @@ repositories {
 }
 
 dependencies {
-
     minecraft("com.mojang:minecraft:${sc.current.version}")
+
     val parchment = sc.properties.rawOrNull("deps", "parchment")?.toString()
     if (parchment != null) {
         val (parchmentMc, parchmentDate) = parchment.split(":")
@@ -109,18 +97,6 @@ dependencies {
     }
 
     modImplementation("net.fabricmc:fabric-loader:${property("deps.fabric_loader")}")
-
-}
-
-java {
-    withSourcesJar()
-    targetCompatibility = requiredJava
-    sourceCompatibility = requiredJava
-
-    toolchain {
-        vendor = JvmVendorSpec.ADOPTIUM
-        languageVersion = JavaLanguageVersion.of(requiredJava.majorVersion)
-    }
 }
 
 publishMods {
@@ -135,7 +111,7 @@ publishMods {
 
     curseforge {
         accessToken = providers.gradleProperty("curseforgeToken")
-        projectId = "1761202"
+        projectId = property("publish.curseforge_id").toString()
         minecraftVersions.addAll(curseforgeVersions)
         client = true
         server = false
@@ -143,15 +119,15 @@ publishMods {
 
     modrinth {
         accessToken = providers.gradleProperty("modrinthToken")
-        projectId = "p6841kf7"
+        projectId = property("publish.modrinth_id").toString()
         minecraftVersions.addAll(modrinthVersions)
     }
 }
 
-
 tasks {
     processResources {
         exclude("META-INF/neoforge.mods.toml")
+
         fun MutableMap<String, String>.register(key: String, property: String) {
             val value: String = sc.properties[property]
             inputs.property(key, value)
@@ -195,31 +171,6 @@ tasks {
     }
 }
 
-val publishVersion = project.version.toString()
-
-tasks.named("publishModrinth") {
-    val version = publishVersion
-    val token = providers.gradleProperty("modrinthToken")
-    onlyIf("Version noch nicht auf Modrinth") {
-        val conn = URI("https://api.modrinth.com/v2/project/always-sprint/version/$version")
-            .toURL().openConnection() as HttpURLConnection
-        token.orNull?.let { conn.setRequestProperty("Authorization", it) }
-        conn.setRequestProperty("Cache-Control", "no-cache")
-        val code = conn.responseCode
-        conn.disconnect()
-        code != 200
-    }
-}
-
-tasks.named("publishCurseforge") {
-    val fileName = "always-sprint-$publishVersion.jar"
-    onlyIf("Version noch nicht auf CurseForge") {
-        val onCurseforge = runCatching {
-            URI("https://api.cfwidget.com/1761202").toURL().readText().contains(fileName)
-        }.getOrDefault(false)
-        !onCurseforge
-    }
-}
 tasks.register("printModrinthVersions") {
     group = "publishing"
     val versions = modrinthVersions

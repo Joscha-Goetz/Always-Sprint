@@ -1,18 +1,12 @@
-import java.net.HttpURLConnection
-import java.net.URI
-
 plugins {
+    id("build-common")
     id("net.neoforged.moddev")
     id("me.modmuss50.mod-publish-plugin")
 }
 
-val loader = "neoforge"
-val neoModId = (property("mod.id") as String).replace('-', '_')
-version = "${property("mod.version")}-${sc.current.version}-$loader"
-base.archivesName = property("mod.id") as String
+val requiredJava = extra["requiredJava"] as JavaVersion
 
-val requiredJava: JavaVersion =
-    if (sc.current.parsed >= "26.1") JavaVersion.VERSION_25 else JavaVersion.VERSION_21
+val neoModId = (property("mod.id") as String).replace('-', '_')
 
 val compatibleVersions: List<String> = sc.properties.rawOrNull("mod", "mc_releases")
     ?.asList().orEmpty().map { it.toString() }
@@ -44,17 +38,6 @@ neoForge {
     }
 }
 
-java {
-    withSourcesJar()
-    targetCompatibility = requiredJava
-    sourceCompatibility = requiredJava
-
-    toolchain {
-        vendor = JvmVendorSpec.ADOPTIUM
-        languageVersion = JavaLanguageVersion.of(requiredJava.majorVersion)
-    }
-}
-
 publishMods {
     file = tasks.jar.flatMap { it.archiveFile }
     version = project.version.toString()
@@ -66,7 +49,7 @@ publishMods {
 
     curseforge {
         accessToken = providers.gradleProperty("curseforgeToken")
-        projectId = "1761202"
+        projectId = property("publish.curseforge_id").toString()
         minecraftVersions.addAll(compatibleVersions)
         client = true
         server = false
@@ -74,7 +57,7 @@ publishMods {
 
     modrinth {
         accessToken = providers.gradleProperty("modrinthToken")
-        projectId = "p6841kf7"
+        projectId = property("publish.modrinth_id").toString()
         minecraftVersions.addAll(compatibleVersions)
     }
 }
@@ -94,24 +77,4 @@ tasks.processResources {
 
     val mixinJava = "JAVA_${requiredJava.majorVersion}"
     filesMatching("*.mixins.json") { expand("java" to mixinJava) }
-}
-
-val publishVersion = project.version.toString()
-
-tasks.named("publishModrinth") {
-    val version = publishVersion
-    onlyIf("Version noch nicht auf Modrinth") {
-        val json = URI("https://api.modrinth.com/v2/project/always-sprint/version").toURL().readText()
-        !json.contains("\"version_number\":\"$version\"")
-    }
-}
-
-tasks.named("publishCurseforge") {
-    val fileName = "always-sprint-$publishVersion.jar"
-    onlyIf("Version noch nicht auf CurseForge") {
-        val onCurseforge = runCatching {
-            URI("https://api.cfwidget.com/1761202").toURL().readText().contains(fileName)
-        }.getOrDefault(false)
-        !onCurseforge
-    }
 }

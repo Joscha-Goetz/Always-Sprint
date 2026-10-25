@@ -5,6 +5,9 @@ mod.version = "2.0.1"
 
 deps.fabric_loader = "0.20.1"
 
+publish.curseforge_id = "1761202"
+publish.modrinth_id = "p6841kf7"
+
 "26.3-fabric"      = { mod = { mc_compat = ">=26.3 <26.4", mc_releases = ["26.3"] } }
 "26.3-neoforge"    = { mod = { mc_compat = ">=26.3 <26.4", mc_releases = ["26.3"] }, deps = { neoforge = "26.3.0.95" } }
 "26.2-fabric"      = { mod = { mc_compat = "26.2", mc_releases = ["26.2"] } }
