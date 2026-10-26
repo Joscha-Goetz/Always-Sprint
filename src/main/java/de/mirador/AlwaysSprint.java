@@ -20,7 +20,7 @@ public class AlwaysSprint /*? if fabric {*/implements ModInitializer/*?}*/ {
     public static final Logger LOGGER = LoggerFactory.getLogger("always-sprint");
     //?} else
     //public static final Logger LOGGER = LogManager.getLogger("always-sprint");
-    public static final String VERSION = /*$ mod_version*/ "2.0.1";
+    public static final String VERSION = /*$ mod_version*/ "2.0.2";
     public static final String MINECRAFT = /*$ minecraft*/ "1.21.8";
 
     //? if fabric {
